@@ -11,7 +11,8 @@
 #include "takebits.h"
 /* #include "cpprops.h" */
 
-static const char *form_rec(const uint32_t *addr, int addr_size,
+static const char *form_rec(take_bits_t take_bits,
+			    const void *addr, int addr_size,
 			    char *dst, socklen_t dst_size,
 			    int addr_idx, int dst_idx, int flags);
 static const char *form_inet(const void *src,
@@ -41,7 +42,8 @@ const char *i_dunno_form(int af, const void *src,
 #define is_unassigned(cp)	(cp == 0 || u_charType(cp) == U_UNASSIGNED)
 				/* NUL *is* assigned, but we don't want it */
 
-static const char *form_rec(const uint32_t *addr, int addr_size,
+static const char *form_rec(take_bits_t take_bits,
+			    const void *addr, int addr_size,
 			    char *dst, socklen_t dst_size,
 			    int addr_idx, int dst_idx, int flags)
 {
@@ -57,7 +59,7 @@ static const char *form_rec(const uint32_t *addr, int addr_size,
 			return NULL;
 		}
 
-		TAKE_BITS(cp, addr, addr_idx, stride, addr_size);
+		TAKE_BITS(take_bits, cp, addr, addr_idx, stride);
 		if (is_unassigned(cp) ||  U8_LENGTH(cp) != utf8len) {
 			/* Don't include unassigned codepoints.
 			 * Skip codepoints that would be represented with
@@ -82,7 +84,7 @@ static const char *form_rec(const uint32_t *addr, int addr_size,
 				 * last char */
 				U8_BACK_1((unsigned char *) dst, 0, dst_idx);
 		}
-		else if (form_rec(addr, addr_size, dst, dst_size,
+		else if (form_rec(take_bits, addr, addr_size, dst, dst_size,
 				  addr_idx, dst_idx, flags)) {
 			return dst;
 		}
@@ -99,20 +101,14 @@ static const char *form_inet(const void *src,
 			     char *dst, socklen_t size,
 			     int flags)
 {
-	const struct in_addr *addr = src;
-	const uint32_t *addr32 = &addr->s_addr;
-
-	return form_rec(addr32, 32, dst, size, 0, 0, flags);
+	return form_rec(take_bits_inet, src, 32, dst, size, 0, 0, flags);
 }
 
 static const char *form_inet6(const void *src,
 			      char *dst, socklen_t size,
 			      int flags)
 {
-	const struct in6_addr *addr = src;
-	const uint32_t *addr32 = &addr->s6_addr32[0];
-
-	return form_rec(addr32, 128, dst, size, 0, 0, flags);
+	return form_rec(take_bits_inet6, src, 128, dst, size, 0, 0, flags);
 }
 
 #define is_nonascii(cp)		(! U8_IS_SINGLE(cp))

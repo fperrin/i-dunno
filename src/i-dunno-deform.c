@@ -10,7 +10,7 @@
 
 static int deform_inet(const char *src, struct in_addr *dst);
 static int deform_inet6(const char *src, struct in6_addr *dst);
-static int deform_generic(const char *src, uint32_t *dst, int size);
+static int deform_generic(push_bits_t push_bits, const char *src, void *dst, int size);
 
 int i_dunno_deform(int af, const char *src, void *dst)
 {
@@ -27,15 +27,15 @@ int i_dunno_deform(int af, const char *src, void *dst)
 
 static int deform_inet(const char *src, struct in_addr *dst)
 {
-	return deform_generic(src, &dst->s_addr, 32);
+	return deform_generic(push_bits_inet, src, dst, 32);
 }
 
 static int deform_inet6(const char *src, struct in6_addr *dst)
 {
-	return deform_generic(src, &dst->s6_addr32[0], 128);
+	return deform_generic(push_bits_inet6, src, dst, 128);
 }
 
-static int deform_generic(const char *src, uint32_t *dst, int size)
+static int deform_generic(push_bits_t push_bits, const char *src, void *dst, int size)
 {
 	int src_idx = 0;
 	int strides[] = { 7, 11, 16, 21 };
@@ -58,7 +58,7 @@ static int deform_generic(const char *src, uint32_t *dst, int size)
 		/* TODO handle padding */
 		assert (dst_idx + nb_bits <= size);
 
-		PUSH_BITS(dst, dst_idx, cp, nb_bits);
+		PUSH_BITS(push_bits, dst, dst_idx, cp, nb_bits);
 	}
 	return 1;
 }

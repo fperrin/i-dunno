@@ -11,8 +11,8 @@
 int do_one_roundtrip(void)
 {
 	struct in6_addr rand_addr;
-	for (int i = 0; i < 4; i++)
-		rand_addr.s6_addr32[i] = random();
+	for (int i = 0; i < 16; i++)
+		rand_addr.s6_addr[i] = random();
 
 	char dest[I_DUNNO_ADDRSTRLEN];
 	if (! i_dunno_form(AF_INET6, &rand_addr, dest,
