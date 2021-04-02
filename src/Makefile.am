@@ -1,4 +1,4 @@
-AM_CFLAGS = -I$(top_srcdir)/src -Wall -Werror
+AM_CFLAGS = -I$(top_srcdir)/src -Wall -Werror @ICU_CFLAGS@ @ICU_I18N_CFLAGS@
 
 lib_LTLIBRARIES = libi-dunno.la
 libi_dunno_la_SOURCES = i-dunno-form.c i-dunno-deform.c
