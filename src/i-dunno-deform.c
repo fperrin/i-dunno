@@ -1,12 +1,12 @@
-#include <arpa/inet.h>
+#include <config.h>
+#include <i-dunno.h>
+#include "pushbits.h"
+
+#include <netinet/in.h>
 #include <assert.h>
 #include <errno.h>
-#include <strings.h>
 
 #include <unicode/utf8.h>
-
-#include "i-dunno.h"
-#include "pushbits.h"
 
 static int deform_inet(const char *src, struct in_addr *dst);
 static int deform_inet6(const char *src, struct in6_addr *dst);
@@ -27,11 +27,13 @@ int i_dunno_deform(int af, const char *src, void *dst)
 
 static int deform_inet(const char *src, struct in_addr *dst)
 {
+	dst->s_addr = INADDR_ANY;
 	return deform_generic(push_bits_inet, src, dst, 32);
 }
 
 static int deform_inet6(const char *src, struct in6_addr *dst)
 {
+	*dst = in6addr_any;
 	return deform_generic(push_bits_inet6, src, dst, 128);
 }
 
@@ -39,8 +41,6 @@ static int deform_generic(push_bits_t push_bits, const char *src, void *dst, int
 {
 	int src_idx = 0;
 	int strides[] = { 7, 11, 16, 21 };
-
-	bzero(dst, size / 8);
 
 	for (int dst_idx = 0; dst_idx < size; ) {
 		int cp;

@@ -1,9 +1,8 @@
 #include <config.h>
+#include "pushbits.h"
 
 #include <assert.h>
 #include <netinet/in.h>
-
-#include "pushbits.h"
 
 static void push_bits32(uint32_t *dst, int offset, int value, int nb_bits,
 			int max_size)

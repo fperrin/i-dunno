@@ -1,12 +1,14 @@
-#include <assert.h>
-#include <err.h>
-#include <stdio.h>
+#include "takebits.h"
+#include "pushbits.h"
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 
-#include "takebits.h"
-#include "pushbits.h"
+#include <assert.h>
+#include <err.h>
+#include <stdio.h>
+#include <string.h>
 
 void assert_equal(uint32_t actual, uint32_t expected)
 {

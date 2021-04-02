@@ -1,9 +1,8 @@
 #include <config.h>
+#include "takebits.h"
 
 #include <netinet/in.h>
 #include <assert.h>
-
-#include "takebits.h"
 
 /*
  *

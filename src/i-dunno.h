@@ -1,7 +1,6 @@
 #ifndef I_DUNNO_H
 #define I_DUNNO_H
 
-#include <stdint.h>
 #include <sys/socket.h>
 
 const char *i_dunno_form(int af, const void *src,

@@ -1,4 +1,8 @@
-#include <arpa/inet.h>
+#include <config.h>
+#include <i-dunno.h>
+#include "takebits.h"
+
+#include <netinet/in.h>
 #include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
@@ -7,10 +11,6 @@
 #include <unicode/utf8.h>
 #include <unicode/uscript.h>
 #include <unicode/uspoof.h>
-
-#include "i-dunno.h"
-#include "takebits.h"
-/* #include "cpprops.h" */
 
 static const char *form_rec(take_bits_t take_bits,
 			    const void *addr, int addr_size,

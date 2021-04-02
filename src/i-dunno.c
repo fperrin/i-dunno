@@ -1,12 +1,12 @@
+#include <config.h>
+#include <i-dunno.h>
+
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-#include "i-dunno.h"
-#include "config.h"
 
 void usage(char *name)
 {
