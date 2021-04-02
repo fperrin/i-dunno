@@ -1,6 +1,7 @@
 #include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #include <unicode/uidna.h>
 #include <unicode/utf8.h>
@@ -48,7 +49,7 @@ static const char *form_rec(take_bits_t take_bits,
 			    int addr_idx, int dst_idx, int flags)
 {
 	int cp;
-	UBool error = FALSE;
+	UBool error = false;
 
 	int strides[] = { 7, 11, 16, 21 };
 	for (int i = 0; i < 4; i++) {
