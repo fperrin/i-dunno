@@ -12,7 +12,7 @@ void usage(char *name)
 {
 	printf("Usage: %s [-msd] ADDRESS\n", name);
 	printf("\
-Forms an I-DUNNO representation of ADDRESS (IPv4 or IPv6)\n\
+Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).\n\
 \n\
   -s	generates Satisfactory level of confusion\n\
   -d	generates Delightful level of confusion\n\
@@ -20,8 +20,8 @@ Forms an I-DUNNO representation of ADDRESS (IPv4 or IPv6)\n\
 \n\
 The Mininum level of confusion is always enabled.\n\
 \n\
-Exits with a non-zero status if a satifactory level of confusion cannot be\n\
-reached\n\
+Exits with a non-zero status if the requested level of confusion cannot be\n\
+reached.\n\
 ");
 }
 

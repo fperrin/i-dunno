@@ -1,2 +1,3 @@
-SUBDIRS = src testsuite
-AM_CFLAGS = -I$(top_srcdir)/src -Wall -Werror
+SUBDIRS = src testsuite doc
+
+dist_doc_DATA = README.md LICENSE

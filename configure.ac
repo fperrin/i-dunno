@@ -1,19 +1,30 @@
 AC_INIT([i-dunno], [0.1], [fred@fperrin.net])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-
-AC_PROG_CC
-AM_PROG_AR
-AC_REPLACE_FUNCS
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
-	Makefile src/Makefile testsuite/Makefile
+	Makefile
+	src/Makefile
+	testsuite/Makefile
+	doc/Makefile
 ])
+
+dnl Program checks
+AC_PROG_CC
+AM_PROG_AR
+AC_PROG_AWK
+
+AC_CHECK_PROGS(PANDOC, [pandoc])
+AM_CONDITIONAL(HAVE_PANDOC, [test -n "$PANDOC"])
+
+dnl Libtool
 LT_INIT([disable-static])
 
+dnl Library checks
 PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([ICU], [icu-uc])
 PKG_CHECK_MODULES([ICU_I18N], [icu-i18n])
 
+dnl Checks for typedefs and structures
 AC_CHECK_MEMBER([struct in6_addr.s6_addr32],
 		[], [],
 		[[#include <netinet/in.h>]])
