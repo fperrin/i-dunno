@@ -4,10 +4,13 @@
 .hy
 .SH SYNOPSIS
 .PP
-\f[C]i\-dunno\f[R] \f[C][\-sd]\f[R] \f[C]ADDRESS\f[R]
+\f[C]i\-dunno\f[R] \f[C][\-sd]\f[R] \f[C]ADDRESS...\f[R]
 .SH DESCRIPTION
 .PP
-Prints an I\-DUNNO representation of ADDRESS (IPv4 or IPv6).
+Prints an I\-DUNNO representation of each ADDRESS (IPv4 or IPv6).
+.TP
+.B \f[B]\-m\f[R]
+generate Minimum level of confusion (default)
 .TP
 .B \f[B]\-s\f[R]
 generate Satisfactory level of confusion
@@ -20,6 +23,9 @@ do not pad the source when forming address
 .TP
 .B \f[B]\-r\f[R]
 randomize list of codepoints considered when forming I\-DUNNO
+.TP
+.B \f[B]\-0\f[R]
+print a null character between each I\-DUNNO form, instead of a newline
 .PP
 The Mininum level of confusion is always enabled.
 .PP

@@ -17,11 +17,14 @@ Unreadable Network NOtation_, addresses, as specified in
 
 ## SYNOPSIS
 
-`i-dunno` `[-sd]` `ADDRESS`
+`i-dunno` `[-sd]` `ADDRESS...`
 
 ## DESCRIPTION
 
-Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).
+Prints an I-DUNNO representation of each ADDRESS (IPv4 or IPv6).
+
+**-m**
+: generate Minimum level of confusion (default)
 
 **-s**
 : generate Satisfactory level of confusion
@@ -34,6 +37,9 @@ Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).
 
 **-r**
 : randomize list of codepoints considered when forming I-DUNNO
+
+**-0**
+: print a null character between each I-DUNNO form, instead of a newline
 
 The Mininum level of confusion is always enabled.
 
