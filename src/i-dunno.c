@@ -6,6 +6,7 @@
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 
 void usage(char *name)
@@ -17,6 +18,7 @@ Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).\n\
   -s	generate Satisfactory level of confusion\n\
   -d	generate Delightful level of confusion\n\
   -p	do not pad the source when forming address\n\
+  -r	randomize list of codepoints considered when forming I-DUNNO\n\
   -h	print this help\n\
 \n\
 The Mininum level of confusion is always enabled.\n\
@@ -31,7 +33,7 @@ int main(int argc, char **argv)
 	int flag = I_DUNNO_MINIMUM_CONFUSION;
 	int opt;
 
-	while ((opt = getopt(argc, argv, "sdph")) != -1) {
+	while ((opt = getopt(argc, argv, "sdprh")) != -1) {
 		switch (opt) {
 		case 's':
 			flag |= I_DUNNO_SATISFACTORY_CONFUSION;
@@ -41,6 +43,12 @@ int main(int argc, char **argv)
 			break;
 		case 'p':
 			flag |= I_DUNNO_NO_PADDING;
+			break;
+		case 'r':
+			flag |= I_DUNNO_RANDOMIZE;
+			/* bad randomization, for the sake of not getting
+			 * the same form twice */
+			srandom(time(NULL));
 			break;
 		case 'h':
 			usage(argv[0]);

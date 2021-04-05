@@ -85,7 +85,10 @@ This function forms an I-DUNNO address.
   and zero or more of the following options:
 
   - *`I_DUNNO_NO_PADDING`*: do not pad the bitstream when allocating
-    codepoints forming the I-DUNNO representation.
+  codepoints forming the I-DUNNO representation,
+
+  - *`I_DUNNO_RANDOMIZE`*: randomize the list of codepoints considered when
+  forming I-DUNNO representation.
 
 ## RETURN VALUE
 

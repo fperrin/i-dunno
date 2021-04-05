@@ -15,7 +15,8 @@ int do_one_roundtrip(void)
 
 	char dest[I_DUNNO_ADDRSTRLEN];
 	if (! i_dunno_form(AF_INET, &rand_addr, dest,
-			   I_DUNNO_ADDRSTRLEN, I_DUNNO_SATISFACTORY_CONFUSION))
+			   I_DUNNO_ADDRSTRLEN,
+			   I_DUNNO_SATISFACTORY_CONFUSION | I_DUNNO_RANDOMIZE))
 		return 0;
 
 	struct in_addr returned_addr = { 0 };

@@ -24,6 +24,7 @@ int i_dunno_deform(int af, const char *src, void *dst);
 
 /* Other flags for i_dunno_form */
 #define I_DUNNO_NO_PADDING			(1 << 8)
+#define I_DUNNO_RANDOMIZE			(1 << 9)
 
 
 #define I_DUNNO_MINIMUM_CONFUSION		\

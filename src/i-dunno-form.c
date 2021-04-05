@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <unicode/uidna.h>
 #include <unicode/utf8.h>
@@ -44,8 +45,11 @@ static const char *form_rec(take_bits_t take_bits,
 			    const void *addr, char *dst, socklen_t dst_size,
 			    int addr_idx, int dst_idx, int flags)
 {
-	for (int i = 0; i < 4; i++) {
-		int stride = utf8strides[i];
+	int strideoffset = 0;
+	if (flags & I_DUNNO_RANDOMIZE)
+		strideoffset = random();
+	for (int i = 0; i < utf8strides_max; i++) {
+		int stride = utf8strides[(i + strideoffset) % utf8strides_max];
 		uint32_t taken_bits;
 		int cp;
 		UBool error = false;

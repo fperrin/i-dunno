@@ -23,6 +23,7 @@
 	 cp > '9')
 
 static const int utf8strides[] = { 7, 11, 16, 21 };
+static const int utf8strides_max = 4;
 
 /* How many bits in this codepoint? */
 #define nb_bits_in_cp(cp)	(utf8strides[U8_LENGTH(cp) - 1])
