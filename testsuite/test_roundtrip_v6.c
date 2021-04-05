@@ -8,7 +8,7 @@
 #include "i-dunno.h"
 #include "testutils.h"
 
-int do_one_roundtrip(void)
+int do_one_roundtrip()
 {
 	struct in6_addr rand_addr;
 	for (int i = 0; i < 16; i++)
@@ -16,7 +16,7 @@ int do_one_roundtrip(void)
 
 	char dest[I_DUNNO_ADDRSTRLEN];
 	if (! i_dunno_form(AF_INET6, &rand_addr, dest,
-			   I_DUNNO_ADDRSTRLEN, I_DUNNO_DELIGHTFUL_CONFUSION))
+			   I_DUNNO_ADDRSTRLEN, I_DUNNO_SATISFACTORY_CONFUSION))
 		return 0;
 
 	struct in6_addr returned_addr = { 0 };

@@ -1,6 +1,7 @@
 #ifndef UNICODEHELPERS_H
 #define UNICODEHELPERS_H
 
+#include <unicode/uchar.h>
 #include <unicode/uscript.h>
 #include <unicode/utf8.h>
 
@@ -11,8 +12,15 @@
 #define is_nonascii(cp)		(! U8_IS_SINGLE(cp))
 #define is_nonprint(cp)		(! u_isprint(cp))
 #define is_symbol(cp)		(U_GET_GC_MASK(cp) & U_GC_S_MASK)
-#define is_emoji(cp)		(u_hasBinaryProperty(cp, UCHAR_EMOJI))
 #define u_getScript(cp)		((UScriptCode) u_getIntPropertyValue(cp, UCHAR_SCRIPT))
+
+/* The ASCII digits 0-9 have the Emoji property; reject these. But add those
+ * with the extend
+ * https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3ABasic_Emoji%3DYes%3A%5D%5B%3AEmoji%3DYes%3A%5D%5B%3AExtended_Pictographic%3DYes%3A%5D&c=on&g=&i= */
+#define is_emoji(cp)	\
+	((u_hasBinaryProperty(cp, UCHAR_EMOJI) ||			\
+	  u_hasBinaryProperty(cp, UCHAR_EXTENDED_PICTOGRAPHIC)) &&	\
+	 cp > '9')
 
 static const int utf8strides[] = { 7, 11, 16, 21 };
 
