@@ -4,13 +4,19 @@
 #include <assert.h>
 #include <netinet/in.h>
 
-static void push_bits32(uint32_t *dst, int offset, int value, int nb_bits,
+static void push_bits32(uint32_t *dst, int offset, uint32_t value, int nb_bits,
 			int max_size)
 {
 	assert (nb_bits < 32);
 
-	/* TODO: in that case, throw away the low bits (were random padding) */
-	assert (offset + nb_bits <= max_size);
+	if (offset >= max_size)
+		return;
+	if (offset + nb_bits > max_size) {
+		/* the extra bits are from padding */
+		int paddingbits = offset + nb_bits - max_size;
+		value >>= paddingbits;
+		nb_bits -= paddingbits;
+	}
 
 	for (; offset > 32; offset -= 32)
 		dst++;
@@ -31,11 +37,17 @@ static void push_bits32(uint32_t *dst, int offset, int value, int nb_bits,
 
 #ifdef FALLBACK_S6_ADDR_FOR_STRUCT_IN6_ADDR
 
-static void push_bits8(uint8_t *dst, int offset, int value, int nb_bits,
+static void push_bits8(uint8_t *dst, int offset, uint32_t value, int nb_bits,
 		       int max_size)
 {
-	/* TODO: in that case, throw away the low bits (were random padding) */
-	assert (offset + nb_bits <= max_size);
+	if (offset >= max_size)
+		return;
+	if (offset + nb_bits > max_size) {
+		/* the extra bits are from padding */
+		int paddingbits = offset + nb_bits - max_size;
+		value >>= paddingbits;
+		nb_bits -= paddingbits;
+	}
 
 	assert ((value >> nb_bits) == 0);
 
@@ -43,7 +55,7 @@ static void push_bits8(uint8_t *dst, int offset, int value, int nb_bits,
 	offset %= 8;
 
 	if (offset) {
-		assert (nb_bits >= offset);
+		assert (nb_bits + offset >= 8);
 		*dst |= value >> (nb_bits - 8 + offset);
 		dst++;
 		nb_bits -= (8 - offset);
@@ -62,13 +74,13 @@ static void push_bits8(uint8_t *dst, int offset, int value, int nb_bits,
 
 #endif
 
-void push_bits_inet(void *dst, int offset, int value, int nb_bits)
+void push_bits_inet(void *dst, int offset, uint32_t value, int nb_bits)
 {
 	struct in_addr *addr = dst;
 	push_bits32(&addr->s_addr, offset, value, nb_bits, 32);
 }
 
-void push_bits_inet6(void *dst, int offset, int value, int nb_bits)
+void push_bits_inet6(void *dst, int offset, uint32_t value, int nb_bits)
 {
 	struct in6_addr *addr6 = dst;
 

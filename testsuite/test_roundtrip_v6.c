@@ -38,9 +38,11 @@ int do_one_roundtrip(void)
 
 int main(int argc, char **argv)
 {
-	int wanted_tests = 1;
+	int wanted_tests = 10000;
 	int nb_tests = 0;
 	int nb_attempted_tests = 0;
+	set_rand_seed(argc, argv);
+
 	while (nb_tests < wanted_tests) {
 		if (do_one_roundtrip())
 			nb_tests++;

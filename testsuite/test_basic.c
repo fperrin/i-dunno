@@ -1,26 +1,62 @@
+/* -*- coding: utf-8 -*- */
+
 #include <arpa/inet.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <unicode/uidna.h>
 #include <unicode/utf8.h>
 
 #include "i-dunno.h"
 #include "testutils.h"
 
-const char *basic_ip = "198.51.100.164";
-const char *basic_form = "c\flҤ";
+/* Note we're using a very slightly different example from the RFC. While
+ * "CYRILLIC CAPITAL LIGATURE EN GHE" is an IDNA2008 disallowed character,
+ * it's only because it's upper case; "CYRILLIC SMALL LIGATURE EN GHE" **is**
+ * allowed. It's more interesting to test with the latter.
+ * https://util.unicode.org/UnicodeJsps/idna.jsp?a=c%D2%A5 */
+const char *basic_ip = "198.51.100.165";
+const char *basic_form = "c\flҥ";
+
+void test_uidna_disallowed(void)
+{
+	UErrorCode err;
+	UIDNA *idna = uidna_openUTS46(UIDNA_USE_STD3_RULES, &err);
+	UIDNAInfo info = UIDNA_INFO_INITIALIZER;
+	char buf[255];
+
+	/* check the basic form is indeed rejected */
+	err = U_ZERO_ERROR;
+	uidna_labelToASCII_UTF8(idna, basic_form, -1, buf, 255, &info, &err);
+	assert (info.errors & UIDNA_ERROR_DISALLOWED);
+
+	/* check that the rejection is due to the \f... */
+	err = U_ZERO_ERROR;
+	uidna_labelToASCII_UTF8(idna, "c\fa", -1,
+				buf, 255, &info, &err);
+	assert (info.errors & UIDNA_ERROR_DISALLOWED);
+
+	/* ...and no to the Cyrillic character */
+	err = U_ZERO_ERROR;
+	uidna_labelToASCII_UTF8(idna, "cҥ", -1,
+				buf, 255, &info, &err);
+	assert (! info.errors);
+	assert (strcmp(buf, "xn--c-xzb") == 0);
+
+	uidna_close(idna);
+}
 
 void test_basic_form(void)
 {
-	char dest[I_DUNNO_ADDRSTRLEN];
+	char dest[I_DUNNO_ADDRSTRLEN] = { 0, };
 
 	struct in_addr addr;
 	assert (inet_pton(AF_INET, basic_ip, &addr));
 
-	assert (i_dunno_form(AF_INET, &addr, dest, 32,
-			     I_DUNNO_MINIMUM_CONFUSION));
+	assert (i_dunno_form(AF_INET, &addr, dest, I_DUNNO_ADDRSTRLEN,
+			     I_DUNNO_MINIMUM_CONFUSION | I_DUNNO_NO_PADDING));
 	printf("%s", dest);
 	assert (strcmp(dest, basic_form) == 0);
 }
@@ -33,12 +69,13 @@ void test_basic_deform(void)
 	char addrp[INET_ADDRSTRLEN];
 	assert (inet_ntop(AF_INET, &addr, addrp, INET_ADDRSTRLEN));
 	printf("%s\n", addrp);
-	assert (strcmp(addrp, "198.51.100.164") == 0);
+	assert (strcmp(addrp, basic_ip) == 0);
 }
 
 
 int main(int argc, char **argv)
 {
+	test_uidna_disallowed();
 	test_basic_form();
 	test_basic_deform();
 	return 0;

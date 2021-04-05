@@ -14,8 +14,9 @@ void usage(char *name)
 	printf("\
 Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).\n\
 \n\
-  -s	generates Satisfactory level of confusion\n\
-  -d	generates Delightful level of confusion\n\
+  -s	generate Satisfactory level of confusion\n\
+  -d	generate Delightful level of confusion\n\
+  -p	do not pad the source when forming address\n\
   -h	print this help\n\
 \n\
 The Mininum level of confusion is always enabled.\n\
@@ -30,13 +31,16 @@ int main(int argc, char **argv)
 	int flag = I_DUNNO_MINIMUM_CONFUSION;
 	int opt;
 
-	while ((opt = getopt(argc, argv, "sdh")) != -1) {
+	while ((opt = getopt(argc, argv, "sdph")) != -1) {
 		switch (opt) {
 		case 's':
 			flag |= I_DUNNO_SATISFACTORY_CONFUSION;
 			break;
 		case 'd':
 			flag |= I_DUNNO_DELIGHTFUL_CONFUSION;
+			break;
+		case 'p':
+			flag |= I_DUNNO_NO_PADDING;
 			break;
 		case 'h':
 			usage(argv[0]);

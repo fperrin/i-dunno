@@ -30,16 +30,23 @@ points to a buffer of size \f[I]\f[CI]size\f[I]\f[R] where the resulting
 I\-DUNNO representation is stored.
 That buffer should be at least \f[I]\f[CI]I_DUNNO_ADDRSTRLEN\f[I]\f[R]
 long.
+The representation is stored in UTF\-8.
 .TP
 .B \f[B]flags\f[R]
-specifies the required complexity of the final address.
-The following values can be specified:
+controls the forming operation.
+It is the bitwise\-or of a required confusion level, one of the
+following:
 .IP \[bu] 2
-\f[C]I_DUNNO_MINIMUM_CONFUSION\f[R]
+\f[I]\f[CI]I_DUNNO_MINIMUM_CONFUSION\f[I]\f[R],
 .IP \[bu] 2
-\f[C]I_DUNNO_SATISFACTORY_CONFUSION\f[R]
+\f[I]\f[CI]I_DUNNO_SATISFACTORY_CONFUSION\f[I]\f[R],
 .IP \[bu] 2
-\f[C]I_DUNNO_DELIGHTFUL_CONFUSION\f[R]
+\f[I]\f[CI]I_DUNNO_DELIGHTFUL_CONFUSION\f[I]\f[R];
+.PP
+and zero or more of the following options:
+.IP \[bu] 2
+\f[I]\f[CI]I_DUNNO_NO_PADDING\f[I]\f[R]: do not pad the bitstream when
+allocating codepoints forming the I\-DUNNO representation.
 .SH RETURN VALUE
 .PP
 \f[B]\f[CB]i_dunno_form\f[B]\f[R] returns \f[I]\f[CI]buf\f[I]\f[R] if it

@@ -24,10 +24,16 @@ Unreadable Network NOtation_, addresses, as specified in
 Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).
 
 **-s**
-: generates Satisfactory level of confusion
+: generate Satisfactory level of confusion
 
 **-d**
-: generates Delightful level of confusion
+: generate Delightful level of confusion
+
+**-p**
+: do not pad the source when forming address
+
+**-r**
+: randomize list of codepoints considered when forming I-DUNNO
 
 The Mininum level of confusion is always enabled.
 
@@ -62,19 +68,24 @@ This function forms an I-DUNNO address.
   formed into an I-DUNNO representation.
 
 **dst**
-: points to a buffer of size *`size`* where the resulting
-  I-DUNNO representation is stored. That buffer should be at least
-  *`I_DUNNO_ADDRSTRLEN`* long.
+: points to a buffer of size *`size`* where the resulting I-DUNNO
+  representation is stored. That buffer should be at least
+  *`I_DUNNO_ADDRSTRLEN`* long. The representation is stored in UTF-8.
 
 **flags**
-: specifies the required complexity of the final address. The
-  following values can be specified:
+: controls the forming operation. It is the bitwise-or of a required
+  confusion level, one of the following:
 
-  - `I_DUNNO_MINIMUM_CONFUSION`
+  - *`I_DUNNO_MINIMUM_CONFUSION`*,
 
-  - `I_DUNNO_SATISFACTORY_CONFUSION`
+  - *`I_DUNNO_SATISFACTORY_CONFUSION`*,
 
-  - `I_DUNNO_DELIGHTFUL_CONFUSION`
+  - *`I_DUNNO_DELIGHTFUL_CONFUSION`*;
+
+  and zero or more of the following options:
+
+  - *`I_DUNNO_NO_PADDING`*: do not pad the bitstream when allocating
+    codepoints forming the I-DUNNO representation.
 
 ## RETURN VALUE
 

@@ -1,6 +1,7 @@
 #include <config.h>
 #include <i-dunno.h>
 #include "pushbits.h"
+#include "unicodehelpers.h"
 
 #include <netinet/in.h>
 #include <assert.h>
@@ -40,12 +41,13 @@ static int deform_inet6(const char *src, struct in6_addr *dst)
 static int deform_generic(push_bits_t push_bits, const char *src, void *dst, int size)
 {
 	int src_idx = 0;
-	int strides[] = { 7, 11, 16, 21 };
 
 	for (int dst_idx = 0; dst_idx < size; ) {
-		int cp;
-		int old_src_idx = src_idx;
+		if (dst_idx >= size)
+			return 0;
 
+		/* Take one codepoint from the I-DUNNO form */
+		int cp;
 		U8_NEXT(src, src_idx, I_DUNNO_ADDRSTRLEN, cp);
 		if (cp < 0)
 			/* invalid UTF-8 */
@@ -54,12 +56,10 @@ static int deform_generic(push_bits_t push_bits, const char *src, void *dst, int
 			/* short string */
 			return 0;
 
-		int nb_bits = strides[src_idx - old_src_idx - 1];
-		/* TODO handle padding */
-		assert (dst_idx + nb_bits <= size);
+		int nb_bits = nb_bits_in_cp(cp);
 
+		/* And push that codepoint onto the address */
 		PUSH_BITS(push_bits, dst, dst_idx, cp, nb_bits);
 	}
 	return 1;
 }
-

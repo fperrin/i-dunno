@@ -2,7 +2,9 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "testutils.h"
 
@@ -29,4 +31,15 @@ void print_idunno(char *addr)
 int u_strcmp(const unsigned char *s1, const unsigned char *s2)
 {
 	return strcmp((char *)s1, (char *)s2);
+}
+
+void set_rand_seed(int argc, char **argv)
+{
+	unsigned int seed;
+	if (argc >= 2)
+		seed = atoi(argv[1]);
+	else
+		seed = time(NULL);
+	printf("Setting srandom(%u)\n", seed);
+	srandom(seed);
 }
