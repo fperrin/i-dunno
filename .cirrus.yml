@@ -1,0 +1,29 @@
+make_check_template: &MAKE_CHECK_TEMPLATE
+  autogen_script: ./autogen.sh
+  configure_script: ./configure
+  make_all_script: make all
+  make_check_script: make check
+  make_distcheck_script: make distcheck
+  on_failure:
+    show_testsuite1_script: ls -lh testsuite
+    show_testsuite2_script: cat testsuite/*.log
+
+check_on_linux_task:
+  container:
+    image: gcc:latest
+    cpu: 1
+    memory: 1G
+  list_installed_script: dpkg -l | cat -
+  apt_update_script: apt update
+  install_script: >-
+    DEBIAN_FRONTEND=noninteractive
+    apt -y install automake libtool pkg-config libicu-dev
+  <<: *MAKE_CHECK_TEMPLATE
+
+check_on_freebsd_task:
+  freebsd_instance:
+    image_family: freebsd-12-2
+    cpu: 1
+    memory: 1G
+  install_script: pkg install -y automake libtool pkgconf icu
+  <<: *MAKE_CHECK_TEMPLATE
