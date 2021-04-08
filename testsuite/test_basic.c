@@ -18,12 +18,16 @@
  * allowed. It's more interesting to test with the latter.
  * https://util.unicode.org/UnicodeJsps/idna.jsp?a=c%D2%A5 */
 const char *basic_ip = "198.51.100.165";
-const char *basic_form = "c\flҥ";
+/* const char *basic_form = "c\flҥ"; */
+#define EN_GHE_LIGATURE "\xd2\xa5"
+const char *basic_form = "c\fl" EN_GHE_LIGATURE;
 
 void test_uidna_disallowed(void)
 {
-	UErrorCode err;
+	UErrorCode err = U_ZERO_ERROR;
 	UIDNA *idna = uidna_openUTS46(UIDNA_USE_STD3_RULES, &err);
+	assert (U_SUCCESS(err));
+	assert (idna);
 	UIDNAInfo info = UIDNA_INFO_INITIALIZER;
 	char buf[255];
 
@@ -38,9 +42,9 @@ void test_uidna_disallowed(void)
 				buf, 255, &info, &err);
 	assert (info.errors & UIDNA_ERROR_DISALLOWED);
 
-	/* ...and no to the Cyrillic character */
+	/* ...and not to the Cyrillic character */
 	err = U_ZERO_ERROR;
-	uidna_labelToASCII_UTF8(idna, "cҥ", -1,
+	uidna_labelToASCII_UTF8(idna, "c" EN_GHE_LIGATURE, -1,
 				buf, 255, &info, &err);
 	assert (! info.errors);
 	assert (strcmp(buf, "xn--c-xzb") == 0);
@@ -75,8 +79,12 @@ void test_basic_deform(void)
 
 int main(int argc, char **argv)
 {
+	printf("Test IDNA\n");
 	test_uidna_disallowed();
+	printf("Test basic form\n");
 	test_basic_form();
+	printf("Test basic deform\n");
 	test_basic_deform();
+	printf("All done\n");
 	return 0;
 }
