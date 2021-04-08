@@ -1,0 +1,26 @@
+name: Run make check
+
+on:
+  push:
+    branches: [ master, github-actions-test ]
+  pull_request:
+    branches: [ master, github-actions-test ]
+
+jobs:
+  make-check-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/make-check
+
+  make-check-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install necessary software
+        run: brew install automake pkg-config icu4c
+      - name: Try and find libicu
+        run: find /usr/local/opt/icu4c/
+      - uses: ./.github/actions/make-check
+    env:
+      PKG_CONFIG_PATH: /usr/local/opt/icu4c/lib/pkgconfig

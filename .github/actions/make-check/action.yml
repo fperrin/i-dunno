@@ -1,0 +1,19 @@
+name: Run make check
+runs:
+  using: composite
+  steps:
+    - name: autogen
+      run: ./autogen.sh
+      shell: bash
+    - name: configure
+      run: ./configure
+      shell: bash
+    - name: make all
+      run: make all
+      shell: bash
+    - name: make check
+      run: make check
+      shell: bash
+    - name: make distcheck
+      run: make distcheck
+      shell: bash
