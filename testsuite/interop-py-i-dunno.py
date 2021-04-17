@@ -66,14 +66,17 @@ def run_c2py(i_dunno_binary, level, addrs, verbose=False):
 
 def many_c2py(i_dunno_binary, level, addrtype, nb_tests, verbose=False):
     print(f"Running c2py {nb_tests} for {addrtype} AF at level {level}")
+
+    # With 10000 addresses on the command-line, macOS fails with E2BIG
+    nb_addrs = 1000
+
     while nb_tests > 0:
-        addrs = []
-        for i in range(nb_tests):
-            if addrtype == "ip":
-                maxaddr = 2 ** 32
-            else:
-                maxaddr = 2 ** 128
-            addrs.append(ipaddress.ip_address(randint(1, maxaddr)))
+        if addrtype == "ip":
+            maxaddr = 2 ** 32
+        else:
+            maxaddr = 2 ** 128
+        addrs = [ipaddress.ip_address(randint(1, maxaddr)) \
+                 for i in range(min(nb_tests, nb_addrs))]
         res = run_c2py(i_dunno_binary, level, addrs, verbose)
         nb_tests -= res
 
