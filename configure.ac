@@ -6,6 +6,7 @@ AC_CONFIG_FILES([
 	src/Makefile
 	testsuite/Makefile
 	doc/Makefile
+	po/Makefile.in
 ])
 
 dnl Program checks
@@ -23,6 +24,9 @@ dnl Library checks
 PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([ICU], [icu-uc])
 PKG_CHECK_MODULES([ICU_I18N], [icu-i18n])
+
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.19)
 
 dnl Checks for typedefs and structures
 AC_CHECK_MEMBER([struct in6_addr.s6_addr32],

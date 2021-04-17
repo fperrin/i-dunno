@@ -1,0 +1,65 @@
+# French translations for i-dunno package.
+# Copyright (C) 2021 Frédéric Perrin
+# This file is distributed under the same license as the i-dunno package.
+# Frédéric Perrin <fred@fperrin.net>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: i-dunno 0.1\n"
+"Report-Msgid-Bugs-To: fred@fperrin.net\n"
+"POT-Creation-Date: 2021-04-17 15:01+0100\n"
+"PO-Revision-Date: 2021-04-17 14:48+0100\n"
+"Last-Translator: Frédéric Perrin\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/i-dunno.c:18
+#, c-format
+msgid "Usage: %s [-msdpr0h] ADDRESS...\n"
+msgstr "Utilisation : %s [-msdpr0h] ADDRESSE...\n"
+
+#: src/i-dunno.c:20
+#, c-format
+msgid ""
+"Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).\n"
+"\n"
+"  -m\tgenerate Minimum level of confusion (default)\n"
+"  -s\tgenerate Satisfactory level of confusion\n"
+"  -d\tgenerate Delightful level of confusion\n"
+"  -p\tdo not pad the source when forming address\n"
+"  -r\trandomize list of codepoints considered when forming I-DUNNO\n"
+"  -0\tprint a null character between each form\n"
+"  -h\tprint this help\n"
+"\n"
+"The Mininum level of confusion is always enabled.\n"
+"\n"
+"Exits with a non-zero status if the requested level of confusion cannot be\n"
+"reached.\n"
+msgstr ""
+"Affiche une représentation I-DUNNO d'ADDRESSE (IPv4 ou IPv6).\n"
+"\n"
+"  -m\tgénèrer un niveau de confusion Minimum (par défaut)\n"
+"  -s\tgénèrer un niveau de confusion Satisfaisant\n"
+"  -d\tgénèrer un niveau de confusion Délicieux\n"
+"  -p\tne pas ajouter de rembourrage lors de la formation de la "
+"représentation\n"
+"  -r\tchoisir de façon aléatoire les points de code lors de la formation\n"
+"  -0\tafficher un caractère nul après chaque forme\n"
+"  -h\tafficher cette aide\n"
+"\n"
+"Quitte avec un code de sortie non-zéro si le niveau de confusion requis ne\n"
+"peut pas être atteint.\n"
+
+#: src/i-dunno.c:82
+#, c-format
+msgid "missing operand\n"
+msgstr "opérande manquant\n"
+
+#: src/i-dunno.c:103
+#, c-format
+msgid "Couldn't parse address %s\n"
+msgstr "Impossible de lire l'addresse %s\n"

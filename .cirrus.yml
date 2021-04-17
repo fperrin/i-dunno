@@ -17,7 +17,7 @@ check_on_linux_task:
   apt_update_script: apt update
   install_script: >-
     DEBIAN_FRONTEND=noninteractive
-    apt -y install automake libtool pkg-config libicu-dev
+    apt -y install automake libtool pkg-config libicu-dev gettext autopoint
   <<: *MAKE_CHECK_TEMPLATE
 
 check_on_freebsd_task:
@@ -25,5 +25,5 @@ check_on_freebsd_task:
     image_family: freebsd-12-2
     cpu: 1
     memory: 1G
-  install_script: pkg install -y automake libtool pkgconf icu
+  install_script: pkg install -y automake libtool pkgconf icu gettext-tools
   <<: *MAKE_CHECK_TEMPLATE

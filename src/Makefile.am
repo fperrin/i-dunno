@@ -6,7 +6,8 @@ libi_dunno_la_LDFLAGS = @ICU_LIBS@ @ICU_I18N_LIBS@
 libi_dunno_la_LIBADD = takebits.lo pushbits.lo
 
 bin_PROGRAMS = i-dunno
-i_dunno_LDADD = libi-dunno.la
+i_dunno_LDADD = libi-dunno.la @LIBINTL@
+i_dunno_SOURCES = i-dunno.c i-dunno.h gettext.h
 
 include_HEADERS = i-dunno.h
 
@@ -22,3 +23,6 @@ libpushbits_la_SOURCES = pushbits.c pushbits.h
 libpushbits_no_s6_addr32_la_SOURCES = pushbits.c
 libpushbits_no_s6_addr32_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) -DFALLBACK_S6_ADDR_FOR_STRUCT_IN6_ADDR
+
+localedir = @localedir@
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@

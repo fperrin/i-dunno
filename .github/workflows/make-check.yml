@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install necessary software
+        run: sudo apt -y install gettext autopoint
       - uses: ./.github/actions/make-check
 
   make-check-macos:
@@ -18,9 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install necessary software
-        run: brew install automake pkg-config icu4c
-      - name: Try and find libicu
-        run: find /usr/local/opt/icu4c/
+        run: brew install automake pkg-config icu4c gettext
+      - name: Make autopoint & gettext tools available
+        run: echo /usr/local/opt/gettext/bin >> $GITHUB_PATH
       - uses: ./.github/actions/make-check
     env:
       PKG_CONFIG_PATH: /usr/local/opt/icu4c/lib/pkgconfig

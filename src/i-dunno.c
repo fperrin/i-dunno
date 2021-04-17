@@ -1,5 +1,8 @@
 #include <config.h>
 #include <i-dunno.h>
+#include <libintl.h>
+#include "gettext.h"
+#define _(s)	gettext(s)
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -12,9 +15,9 @@
 
 void usage(char *name)
 {
-	printf("Usage: %s [-msdpr0h] ADDRESS...\n", name);
-	printf("\
-Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).\n\
+	printf(_("Usage: %s [-msdpr0h] ADDRESS...\n"), name);
+	printf(_(
+"Prints an I-DUNNO representation of ADDRESS (IPv4 or IPv6).\n\
 \n\
   -m	generate Minimum level of confusion (default)\n\
   -s	generate Satisfactory level of confusion\n\
@@ -28,7 +31,7 @@ The Mininum level of confusion is always enabled.\n\
 \n\
 Exits with a non-zero status if the requested level of confusion cannot be\n\
 reached.\n\
-");
+"));
 }
 
 int main(int argc, char **argv)
@@ -37,6 +40,10 @@ int main(int argc, char **argv)
 	int opt;
 	char outseparator = '\n';
 	int exitval = 0;
+
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
 
 	while ((opt = getopt(argc, argv, "msdpr0h")) != -1) {
 		switch (opt) {
@@ -72,7 +79,7 @@ int main(int argc, char **argv)
 	}
 
 	if (optind >= argc) {
-		printf("missing operand\n");
+		printf(_("missing operand\n"));
 		usage(argv[0]);
 		return 1;
 	}
@@ -93,7 +100,7 @@ int main(int argc, char **argv)
 			af = AF_INET6;
 			addr = &addr6;
 		} else {
-			errx(1, "Couldn't parse address %s\n", addrp);
+			errx(1, _("Couldn't parse address %s\n"), addrp);
 		}
 		if (! i_dunno_form(af, addr, dest, I_DUNNO_ADDRSTRLEN, flag)) {
 			exitval = 1;
