@@ -11,18 +11,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Install necessary software
-        run: sudo apt -y install gettext autopoint
+        run: sudo apt -y install $( cat deps/apt )
+      - name: Install Python i-dunno
+        run: sudo python3 -mpip install -r deps/pip
+
       - uses: ./.github/actions/make-check
 
   make-check-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Install necessary software
-        run: brew install automake pkg-config icu4c gettext
+        run: brew install $( cat deps/brew )
+
       - name: Make autopoint & gettext tools available
         run: echo /usr/local/opt/gettext/bin >> $GITHUB_PATH
+
+      - name: Install Python i-dunno
+        run: python3 -mpip install -r deps/pip
+
       - uses: ./.github/actions/make-check
     env:
+      # icu is kept bottled up by default on macOS
       PKG_CONFIG_PATH: /usr/local/opt/icu4c/lib/pkgconfig

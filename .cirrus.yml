@@ -2,6 +2,7 @@ make_check_template: &MAKE_CHECK_TEMPLATE
   autogen_script: ./autogen.sh
   configure_script: ./configure
   make_all_script: make all
+  install_pyi_dunno_script: python3 -mpip install -r deps/pip || true
   make_check_script: make check
   make_distcheck_script: make distcheck
   on_failure:
@@ -17,7 +18,7 @@ check_on_linux_task:
   apt_update_script: apt update
   install_script: >-
     DEBIAN_FRONTEND=noninteractive
-    apt -y install automake libtool pkg-config libicu-dev gettext autopoint
+    apt -y install $( cat deps/apt )
   <<: *MAKE_CHECK_TEMPLATE
 
 check_on_freebsd_task:
@@ -25,5 +26,5 @@ check_on_freebsd_task:
     image_family: freebsd-12-2
     cpu: 1
     memory: 1G
-  install_script: pkg install -y automake libtool pkgconf icu gettext-tools
+  install_script: pkg install -y $( cat deps/pkg )
   <<: *MAKE_CHECK_TEMPLATE

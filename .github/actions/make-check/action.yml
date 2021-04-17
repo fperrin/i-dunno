@@ -12,8 +12,12 @@ runs:
       run: make all
       shell: bash
     - name: make check
-      run: make check
+      run: make check || ( tail -n999 testsuite/*.log && false )
       shell: bash
     - name: make distcheck
-      run: make distcheck
+      run: make distcheck || ( tail -n999 testsuite/*.log && false )
+      shell: bash
+
+    - name: Show testsuite logs
+      run: tail -n999 testsuite/*.log
       shell: bash
