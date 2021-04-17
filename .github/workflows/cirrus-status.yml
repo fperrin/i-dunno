@@ -1,0 +1,20 @@
+name: Report Cirrus CI status
+
+on:
+  check_suite:
+    type: ['completed']
+
+jobs:
+  continue:
+    name: After Cirrus CI
+    if: github.event.check_suite.app.name == 'Cirrus CI'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Cirrus CI ${{ github.event.check_suite.conclusion }} on ${{ github.event.check_suite.head_branch }} branch!"
+          echo "SHA ${{ github.event.check_suite.head_sha }}"
+          echo $MESSAGE
+          echo "See $CHECK_RUN_URL for details"
+          [ "${{ github.event.check_suite.conclusion }}" == "success" ]
+        env:
+          CHECK_RUN_URL: ${{ fromJson(steps.get_failed_check_run.outputs.data).check_runs[0].html_url }}
