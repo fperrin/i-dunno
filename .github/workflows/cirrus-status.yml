@@ -14,7 +14,5 @@ jobs:
           echo "Cirrus CI ${{ github.event.check_suite.conclusion }} on ${{ github.event.check_suite.head_branch }} branch!"
           echo "SHA ${{ github.event.check_suite.head_sha }}"
           echo $MESSAGE
-          echo "See $CHECK_RUN_URL for details"
+          echo "See https://cirrus-ci.com/github/fperrin/i-dunno for details"
           [ "${{ github.event.check_suite.conclusion }}" == "success" ]
-        env:
-          CHECK_RUN_URL: ${{ fromJson(steps.get_failed_check_run.outputs.data).check_runs[0].html_url }}
