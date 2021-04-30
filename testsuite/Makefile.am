@@ -1,4 +1,5 @@
-AM_CFLAGS = -I$(top_srcdir)/src -Wall -Werror
+AM_CFLAGS = -I$(top_srcdir)/src -Wall -Werror @ICU_CFLAGS@ @ICU_I18N_CFLAGS@
+AM_LDFLAGS = @ICU_LIBS@
 
 LDADD = $(top_builddir)/src/libi-dunno.la libtestutils.a
 
@@ -23,8 +24,6 @@ bits_no_s6_addr32_LDADD = \
 	$(top_builddir)/src/libtakebits_no_s6_addr32.la \
 	$(top_builddir)/src/libpushbits_no_s6_addr32.la
 
-basic_CFLAGS = $(AM_CFLAGS) @ICU_CFLAGS@ @ICU_I18N_CFLAGS@
-basic_LDFLAGS = @ICU_LIBS@
 
 TESTS = $(check_PROGRAMS) $(check_SCRIPTS)
 EXTRA_DIST = $(check_SCRIPTS)
