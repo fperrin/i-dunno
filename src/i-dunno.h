@@ -9,8 +9,8 @@ const char *i_dunno_form(int af, const void *src,
 
 int i_dunno_deform(int af, const char *src, void *dst);
 
-/* TODO smartly find this out */
-#define I_DUNNO_ADDRSTRLEN	128
+/* See testsuite/idunno_addrstrlen.c for how this was determined */
+#define I_DUNNO_ADDRSTRLEN			29
 
 /* Confusion levels */
 #define I_DUNNO_HAS_NON_ASCII			(1 << 0)

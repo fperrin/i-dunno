@@ -7,6 +7,7 @@ libtestutils_a_SOURCES = testutils.c testutils.h
 
 check_PROGRAMS = \
 	test_bits test_bits_no_s6_addr32 \
+	idunno_addrstrlen short_addrstrlen \
 	test_basic \
 	test_roundtrip_v4 test_roundtrip_v6
 
