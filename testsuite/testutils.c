@@ -43,3 +43,19 @@ void set_rand_seed(int argc, char **argv)
 	printf("Setting srandom(%u)\n", seed);
 	srandom(seed);
 }
+
+void do_many_checks(check_one_t do_one_check, int flags, int wanted_tests)
+{
+	int nb_tests = 0;
+	int nb_attempted_tests = 0;
+	time_t start = time(NULL);
+
+	while (nb_tests < wanted_tests) {
+		if (do_one_check(flags))
+			nb_tests++;
+		nb_attempted_tests++;
+	}
+
+	printf("Did %d valid tests in %.0fs, drawing %d random IPs\n",
+	       nb_tests, difftime(time(NULL), start), nb_attempted_tests);
+}

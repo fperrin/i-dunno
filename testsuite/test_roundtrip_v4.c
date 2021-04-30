@@ -8,7 +8,7 @@
 #include "i-dunno.h"
 #include "testutils.h"
 
-int do_one_roundtrip(void)
+int do_one_roundtrip(int flags)
 {
 	struct in_addr rand_addr;
 	rand_addr.s_addr = random();
@@ -16,7 +16,7 @@ int do_one_roundtrip(void)
 	char dest[I_DUNNO_ADDRSTRLEN];
 	if (! i_dunno_form(AF_INET, &rand_addr, dest,
 			   I_DUNNO_ADDRSTRLEN,
-			   I_DUNNO_SATISFACTORY_CONFUSION | I_DUNNO_RANDOMIZE))
+			   flags))
 		return 0;
 
 	struct in_addr returned_addr = { 0 };
@@ -39,17 +39,17 @@ int do_one_roundtrip(void)
 int main(int argc, char **argv)
 {
 	int wanted_tests = 10000;
-	int nb_tests = 0;
-	int nb_attempted_tests = 0;
 	set_rand_seed(argc, argv);
 
-	while (nb_tests < wanted_tests) {
-		if (do_one_roundtrip())
-			nb_tests++;
-		nb_attempted_tests++;
-	}
+	do_many_checks(do_one_roundtrip,
+		       I_DUNNO_MINIMUM_CONFUSION,
+		       wanted_tests);
+	do_many_checks(do_one_roundtrip,
+		       I_DUNNO_SATISFACTORY_CONFUSION,
+		       wanted_tests);
+	do_many_checks(do_one_roundtrip,
+		       I_DUNNO_DELIGHTFUL_CONFUSION,
+		       wanted_tests);
 
-	printf("Did %d valid tests, drawing %d random IPs\n",
-	       nb_tests, nb_attempted_tests);
 	return 0;
 }
