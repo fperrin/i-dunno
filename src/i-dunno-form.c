@@ -75,7 +75,7 @@ static const char *form_rec(take_bits_t take_bits,
 		}
 
 		/* Append that codepoint to the destination form */
-		U8_APPEND(dst, dst_idx, dst_size, cp, error);
+		U8_APPEND_SAFE(dst, dst_idx, dst_size, cp, error);
 
 		if (error)
 			return NULL;
@@ -83,7 +83,7 @@ static const char *form_rec(take_bits_t take_bits,
 		/* If we've reached the end of the source address, see whether
 		 * the form is confusing enough. */
 		if (taken_bits & TAKE_BITS_REACHED_END) {
-			U8_APPEND(dst, dst_idx, dst_size, '\0', error);
+			U8_APPEND_SAFE(dst, dst_idx, dst_size, '\0', error);
 			if (error)
 				return NULL;
 			if (confusing_enough(dst, flags))

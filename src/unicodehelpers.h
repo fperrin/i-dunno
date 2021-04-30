@@ -28,4 +28,14 @@ static const int utf8strides_max = 4;
 /* How many bits in this codepoint? */
 #define nb_bits_in_cp(cp)	(utf8strides[U8_LENGTH(cp) - 1])
 
+/* U8_APPEND only checks the capacity of the destination buffer when the
+ * codepoint we append is non-ASCII */
+#define U8_APPEND_SAFE(s, i, capacity, c, isError)	\
+	do {						\
+		if (i >= capacity) {			\
+			isError = true;			\
+			break;				\
+		}					\
+		U8_APPEND(s, i, capacity, c, isError);	\
+	} while (0)
 #endif
