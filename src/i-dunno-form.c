@@ -47,7 +47,7 @@ static const char *form_rec(take_bits_t take_bits,
 {
 	int strideoffset = 0;
 	if (flags & I_DUNNO_RANDOMIZE)
-		strideoffset = random();
+		strideoffset = random() % utf8strides_max;
 	for (int i = 0; i < utf8strides_max; i++) {
 		int stride = utf8strides[(i + strideoffset) % utf8strides_max];
 		uint32_t taken_bits;
