@@ -3,14 +3,14 @@
 import ipaddress
 import os
 from random import randint
-from subprocess import run, PIPE
+from subprocess import run
 import sys
 import unicodedata
 
 try:
     import i_dunno
-except:
-    sys.stderr.write("Could not import i_dunno. Check installation")
+except ImportError:
+    sys.stderr.write("Could not import i_dunno. Check installation\n")
     sys.exit(77)
 
 def level2arg(level):
@@ -25,7 +25,7 @@ def run_c2py(i_dunno_binary, level, addrs, verbose=False):
     if verbose:
         print(f"run_c2py: Running {args}")
 
-    res = run(args, capture_output=True)
+    res = run(args, capture_output=True, check=False)
 
     nb_forms = 0
 
@@ -39,7 +39,7 @@ def run_c2py(i_dunno_binary, level, addrs, verbose=False):
         # Diddn't find a form for that address. Skip.
         if not i_dunno_form:
             if verbose:
-                print(f"couldn't find valid form, trying next one...")
+                print("couldn't find valid form, trying next one...")
             continue
 
         if verbose:
