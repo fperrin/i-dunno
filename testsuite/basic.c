@@ -61,7 +61,7 @@ void test_basic_form(void)
 
 	assert (i_dunno_form(AF_INET, &addr, dest, I_DUNNO_ADDRSTRLEN,
 			     I_DUNNO_MINIMUM_CONFUSION | I_DUNNO_NO_PADDING));
-	printf("%s", dest);
+	print_idunno(dest);
 	assert (strcmp(dest, basic_form) == 0);
 }
 

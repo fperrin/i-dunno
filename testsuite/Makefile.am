@@ -1,7 +1,6 @@
 AM_CFLAGS = -I$(top_srcdir)/src -Wall -Werror @ICU_CFLAGS@ @ICU_I18N_CFLAGS@
-AM_LDFLAGS = @ICU_LIBS@
-
-LDADD = $(top_builddir)/src/libi-dunno.la libtestutils.a
+AM_LDFLAGS = $(top_builddir)/src/libi-dunno.la libtestutils.a \
+	@ICU_LIBS@ @ICU_I18N_LIBS@ -pthread
 
 noinst_LIBRARIES = libtestutils.a
 libtestutils_a_SOURCES = testutils.c testutils.h
