@@ -1,0 +1,2 @@
+# pandoc doesnt' generate a NAME section from markdown
+manpage-has-bad-whatis-entry

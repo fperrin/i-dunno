@@ -1,0 +1,68 @@
+Source: i-dunno
+Section: net
+Priority: optional
+Maintainer: Frédéric Perrin <fred@fperrin.net>
+Build-Depends: debhelper-compat (= 12), libtool, pkg-config, libicu-dev, gettext, autopoint
+Standards-Version: 4.4.1
+Homepage: https://github.com/fperrin/i-dunno
+
+Package: i-dunno
+Section: net
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Manipulate I-DUNNO addresses
+ An implementation of I-DUNNO, or Internationalized Deliberately
+ Unreadable Network NOtation, addresses, as specified in RFC 8771:
+ .
+ Domain Names were designed for humans, IP addresses were not. But
+ more than 30 years after the introduction of the DNS, a minority of
+ mankind persists in invading the realm of machine-to-machine
+ communication by reading, writing, misspelling, memorizing,
+ permuting, and confusing IP addresses. This memo describes the
+ Internationalized Deliberately Unreadable Network NOtation
+ ("I-DUNNO"), a notation designed to replace current textual
+ representations of IP addresses with something that is not only more
+ concise but will also discourage this small, but obviously important,
+ subset of human activity.
+
+Package: libi-dunno0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Manipulate I-DUNNO addresses
+ An implementation of I-DUNNO, or Internationalized Deliberately
+ Unreadable Network NOtation, addresses, as specified in RFC 8771:
+ .
+ Domain Names were designed for humans, IP addresses were not. But
+ more than 30 years after the introduction of the DNS, a minority of
+ mankind persists in invading the realm of machine-to-machine
+ communication by reading, writing, misspelling, memorizing,
+ permuting, and confusing IP addresses. This memo describes the
+ Internationalized Deliberately Unreadable Network NOtation
+ ("I-DUNNO"), a notation designed to replace current textual
+ representations of IP addresses with something that is not only more
+ concise but will also discourage this small, but obviously important,
+ subset of human activity
+ .
+ This package contains the shared library.
+
+Package: i-dunno-dev
+Section: libdevel
+Architecture: any
+Depends: libi-dunno0 (= ${binary:Version}), ${misc:Depends}
+Description: Manipulate I-DUNNO addresses
+ An implementation of I-DUNNO, or Internationalized Deliberately
+ Unreadable Network NOtation, addresses, as specified in RFC 8771:
+ .
+ Domain Names were designed for humans, IP addresses were not. But
+ more than 30 years after the introduction of the DNS, a minority of
+ mankind persists in invading the realm of machine-to-machine
+ communication by reading, writing, misspelling, memorizing,
+ permuting, and confusing IP addresses. This memo describes the
+ Internationalized Deliberately Unreadable Network NOtation
+ ("I-DUNNO"), a notation designed to replace current textual
+ representations of IP addresses with something that is not only more
+ concise but will also discourage this small, but obviously important,
+ subset of human activity.
+ .
+ This package contains the development files.
