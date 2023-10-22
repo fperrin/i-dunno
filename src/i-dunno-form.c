@@ -66,7 +66,7 @@ static const char *form_rec(take_bits_t take_bits,
 			continue;
 		}
 
-		if (is_unassigned(cp) || nb_bits_in_cp(cp) != stride) {
+		if (nb_bits_in_cp(cp) != stride || is_unassigned(cp)) {
 			/* Don't include unassigned codepoints.
 			 * Skip codepoints that would be represented with
 			 * fewer bits than expected in the resulting string */

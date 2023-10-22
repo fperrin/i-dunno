@@ -57,6 +57,9 @@ static int deform_generic(push_bits_t push_bits, const char *src, void *dst, int
 			return 0;
 
 		int nb_bits = nb_bits_in_cp(cp);
+		if (! nb_bits)
+			/* invalid codepoint */
+			return 0;
 
 		/* And push that codepoint onto the address */
 		PUSH_BITS(push_bits, dst, dst_idx, cp, nb_bits);
