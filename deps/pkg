@@ -1,1 +1,1 @@
-git automake libtool pkgconf icu gettext-tools py37-pip
+git automake libtool pkgconf icu gettext-tools py39-pip

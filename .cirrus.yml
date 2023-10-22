@@ -23,7 +23,7 @@ check_on_linux_task:
 
 check_on_freebsd_task:
   freebsd_instance:
-    image_family: freebsd-12-2
+    image_family: freebsd-13-2
     cpu: 1
     memory: 1G
   install_script: pkg install -y $( cat deps/pkg )
